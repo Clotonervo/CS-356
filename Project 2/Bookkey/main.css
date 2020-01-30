@@ -111,12 +111,25 @@
     background-color: #3b5998;
   }
 
+  a {
+    color: #FFF !important;
+  }
+  
+  .text-white {
+    color: #FFF !important;
+  }
+
   #title {
       font-family: Arial, Helvetica, sans-serif;
       color: white;
       align-self: center;
       align-items: center;
       justify-content: center !important;
+  }
+
+  .navbar-brand {
+    height: 50px;
+    width: 50px;
   }
   
   /* Fallback for Edge
