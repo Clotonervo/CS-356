@@ -8,6 +8,17 @@
     background: #69b3d4 !important;
     /* background: linear-gradient(to right, #0062E6, #33AEFF); */
   }
+
+  hr {
+    width: 200px;
+    padding: 0;
+    margin-bottom: 2rem !important;
+    margin-top: 0 !important;
+    background: white !important;
+    border: none;
+    display: inline-block;
+    margin-left: 1rem;
+  }
   
   .card-signin {
     border: 0;
@@ -27,6 +38,7 @@
   
   .form-signin {
     width: 100%;
+    justify-content: center;
   }
   
   .form-signin .btn {
@@ -36,6 +48,9 @@
     font-weight: bold;
     padding: 1rem;
     transition: all 0.2s;
+    width: 40% !important;
+    align-items: center !important;
+    margin: auto !important;
   }
   
   .form-label-group {
@@ -101,9 +116,9 @@
   }
   
   .btn-google {
-    color: white !important;
-    background-color: #69b3d4 !important;
-    border-color:#69b3d4 !important;
+    color: #69b3d4 !important;
+    background-color: white !important;
+    border-color:white !important;
   }
   
   .btn-facebook {
@@ -125,6 +140,10 @@
       align-self: center;
       align-items: center;
       justify-content: center !important;
+  }
+
+  #errorMessage {
+    color: #FF4D4D !important;
   }
 
   .navbar-brand {

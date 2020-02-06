@@ -24,19 +24,36 @@
       </div>
     </div>
   </nav>
+  <hr>
+
+
   <div class="container">
     <div class="row">
       <div class="col-sm-9x col-lg-5 mx-auto">
             <h5 class="card-title text-center text-white">BookKey</h5>              
               <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="ISBN" required autofocus>
+                <input type="text" id="inputISBN" class="form-control" placeholder="ISBN" required autofocus>
+              </div>
+
+              <div id = "errorMessage">
+
+              </div>
+              <div class="form-signin">
+                <button id="searchButton" class="btn btn-lg btn-google btn-block text-uppercase" type="button">Search</button>
+
               </div>
       </div>
     </div>
+
+    <div id = "searchResults">
+
+    </div>
+
   </div>
 
 
 
+  <script text="type/javascript" src="main.js"></script>
 
 </body>
 </html>
