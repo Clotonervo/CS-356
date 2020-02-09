@@ -1,7 +1,31 @@
-document.getElementById("searchButton").addEventListener("click", function(event) {
-    const ISBN = document.getElementById("inputISBN").value;
+// document.getElementById("searchButton").addEventListener("click", function(event) {
+//     const ISBN = document.getElementById("inputISBN").value;
+//     document.getElementById("searchResults").innerHTML = "";
+//     document.getElementById("errorMessage").innerHTML = "";
+
+//     var regex = new RegExp(/\b^(97(8|9))?\d{9}(\d|X)$\b/, );
+//     console.log(ISBN);
+//     console.log(regex.test(ISBN))
+
+//     if (ISBN === "" || !regex.test(ISBN)){
+//         // var error = '<p class="text-center m-1 mb-2"> Please enter a valid ISBN </p>'
+//         // document.getElementById("errorMessage").innerHTML = error;
+//         alert("Please enter a valid ISBN")
+//         return;
+//     }
+
+
+//     var result = '<h2 class="text-center m-1 mt-3"> ISBN IS VALID </h2>';
+//     document.getElementById("searchResults").innerHTML = result;
+// });
+
+var ISBN = '';
+
+async function getResults() {
+    ISBN = document.getElementById("inputISBN").value;
     document.getElementById("searchResults").innerHTML = "";
     document.getElementById("errorMessage").innerHTML = "";
+    
 
     var regex = new RegExp(/\b^(97(8|9))?\d{9}(\d|X)$\b/, );
     console.log(ISBN);
@@ -14,12 +38,31 @@ document.getElementById("searchButton").addEventListener("click", function(event
         return;
     }
 
+    console.log("ISBN DATA:")
+    var data = await ISBNData();
+    console.log(data)
+    var results = await bookData();
+    console.log(data)
+    console.log("got")
 
     var result = '<h2 class="text-center m-1 mt-3"> ISBN IS VALID </h2>';
     document.getElementById("searchResults").innerHTML = result;
-});
+}
 
+const ISBNData = async() => {
+    var url = "https://openlibrary.org/api/books?bibkeys=ISBN:"+ ISBN +"&jscmd=data&format=json"
+    const response = await fetch(url);
+    const json = await response.json();
+    console.log(json);
+    return json;
+}
 
+const bookData = async() => {
+    var url = 'https://www.bookfinder.com/search/?isbn='+ ISBN +'&title=&author=&lang=en&mode=textbook&st=sr&ac=qr'
+    const response = await fetch(url);
+    const result = await response;
+    return result;
+}
 
 // function ISBNSearch(){
 //     const ISBN = document.getElementById("inputISBN").value;
