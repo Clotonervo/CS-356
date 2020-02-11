@@ -36,29 +36,79 @@ let app = new Vue({
             alert("Please enter a valid ISBN")
             return;
         }
+        alert("Fetching book data");
+        document.getElementById("searchResults").innerHTML = "Fetching book data...";
     
         console.log("ISBN DATA:")
         var data = await this.getISBNData();
         console.log(data)
+        data = data["ISBN:"+this.ISBN];
         var results = await this.getBookData();
-        console.log(data)
-        console.log("got")
+        var index = results.lastIndexOf('left">Bookseller</th><th align="left">Notes</th>');
+        results = results.substr(index);
+
+        // console.log(data);
+
+        //format HTML
+        var subtitle = ' ';
+        if (data.subtitle !== undefined){
+          subtitle = data.subtitle;
+        }
+        var resultHTML = '<img src='+ data.cover.medium +'>' + '<h2 class="text-center m-1 mt-3">' + data.title + '</h2>' + '<h4 class="text-center m-1 mt-3">' + subtitle + '</h4>';
+        console.log(results);
+
+        if(results != '' || results === undefined){
+
+          for (var i = 0; i < 12; i++){
+            index = results.indexOf('data-price="');
+            var price = results.substr(index + 12);
+
+            var siteLogoIndex = price.indexOf("<img");    //Getting the site logo
+            var siteLogo = price.substr(siteLogoIndex);
+            siteLogo = siteLogo.substr(0, siteLogo.indexOf(">")+1)
+
+            var titleIndex = siteLogo.indexOf('title="');     //Getting the title of the website
+            var titleName = siteLogo.substr(titleIndex + 7)
+            var title = titleName.substr(0, titleName.indexOf('"'));
+
+            var linkIndex = price.indexOf('href="');
+            var linkSub = price.substr(linkIndex + 6);
+            // console.log(linkSub);
+            var link = linkSub.substr(0, linkSub.indexOf('"'));
+            console.log(link);
+
+            results = results.substr(index + 12);
+            price = price.substr(0, price.indexOf('"'));    //Final parsing of price and  updating html string for next round
+            
+            console.log(price);
+            console.log(title);
+            console.log(siteLogo);
+
+            resultHTML += siteLogo +'<p>' + title + " " + price + '</p>' + '<a href="' + link + '">Go</a>'+'<br><br>';
+          }
+        }
+        else {
+          resultHTML += "<p>Book not found, please search a different ISBN</p>";
+        }
     
-        var result = '<h2 class="text-center m-1 mt-3"> ISBN IS VALID </h2>';
+        var result = resultHTML;
         document.getElementById("searchResults").innerHTML = result; 
       },
       async getISBNData() {
-        var url = "https://openlibrary.org/api/books?bibkeys=ISBN:"+ this.ISBN +"&jscmd=data&format=json"
+        var url = "https://cors-anywhere.herokuapp.com/https://openlibrary.org/api/books?bibkeys=ISBN:"+ this.ISBN +"&jscmd=data&format=json"
         const response = await fetch(url);
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         return json;
       },
       async getBookData() {
           var xmlHttp = new XMLHttpRequest();
-          var url = 'https://www.bookfinder.com/search/?isbn='+ this.ISBN +'&title=&author=&lang=en&mode=textbook&st=sr&ac=qr'
+          var url = 'https://cors-anywhere.herokuapp.com/https://www.bookfinder.com/search/?isbn='+ this.ISBN +'&title=&author=&lang=en&mode=textbook&st=sr&ac=qr'
+          console.log(url);
           xmlHttp.open( "GET", url, false );
-          xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+          xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*","Access-Control-Allow-Headers", "x-requested-with, x-requested-by");
+          // xmlHttp.setRequestHeader("Origin", "*");
+
           xmlHttp.send( null );
           return xmlHttp.responseText;
       }
