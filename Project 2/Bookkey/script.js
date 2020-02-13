@@ -36,7 +36,7 @@ let app = new Vue({
             alert("Please enter a valid ISBN")
             return;
         }
-        alert("Fetching book data");
+        this.displayAlert()
         document.getElementById("searchResults").innerHTML = "Fetching book data...";
     
         console.log("ISBN DATA:")
@@ -111,6 +111,9 @@ let app = new Vue({
 
           xmlHttp.send( null );
           return xmlHttp.responseText;
+      },
+      async displayAlert() {
+        alert("Fetching book data...");
       }
     },
     computed: {
