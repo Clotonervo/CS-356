@@ -36,7 +36,7 @@ let app = new Vue({
             alert("Please enter a valid ISBN")
             return;
         }
-        this.displayAlert()
+        // this.displayAlert()
         document.getElementById("searchResults").innerHTML = "Fetching book data...";
     
         console.log("ISBN DATA:")
@@ -54,10 +54,13 @@ let app = new Vue({
         if (data.subtitle !== undefined){
           subtitle = data.subtitle;
         }
-        var resultHTML = '<img src='+ data.cover.medium +'>' + '<h2 class="text-center m-1 mt-3">' + data.title + '</h2>' + '<h4 class="text-center m-1 mt-3">' + subtitle + '</h4>';
+        resultHTML +='<div class="row-holder m-1">';
+        var resultHTML = '<img style="margin-right: 5ems;" src='+ data.cover.medium +'>' + '<h2 class="text-center m-1 mt-3">' + data.title + '</h2>' + '<h4 class="text-center m-1 mt-3">' + subtitle + '</h4>';
+        resultHTML += '</div>';
+
         console.log(results);
 
-        if(results != '' || results === undefined){
+        if(results !== undefined){
 
           for (var i = 0; i < 12; i++){
             index = results.indexOf('data-price="');
@@ -84,11 +87,14 @@ let app = new Vue({
             console.log(title);
             console.log(siteLogo);
 
+            resultHTML +='<div class="row align-items-center m-1">';
+
             resultHTML += siteLogo +'<p>' + title + " " + price + '</p>' + '<a href="' + link + '">Go</a>'+'<br><br>';
+            resultHTML += '</div>';
           }
         }
         else {
-          resultHTML += "<p>Book not found, please search a different ISBN</p>";
+          resultHTML += "<p>Book data not found, please search a different ISBN</p>";
         }
     
         var result = resultHTML;
